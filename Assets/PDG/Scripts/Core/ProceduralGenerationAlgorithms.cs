@@ -6,12 +6,12 @@ namespace PDG
 {
     public static class ProceduralGenerationAlgorithms
     {
-        public static HashSet<Vector2Int> RandomWalk(Vector2Int startPosition, int walkLegth)
+        public static HashSet<Vector2Int> RandomWalk(Vector2Int startPosition, int walkLength)
         {
             HashSet<Vector2Int> path = new HashSet<Vector2Int>();
             Vector2Int currentPosition = startPosition;
             path.Add(currentPosition);
-            for (int i = 0; i < walkLegth; i++)
+            for (int i = 0; i < walkLength; i++)
             {
                 currentPosition += Direction2D.GetRandomCardinalDirection();
                 path.Add(currentPosition);

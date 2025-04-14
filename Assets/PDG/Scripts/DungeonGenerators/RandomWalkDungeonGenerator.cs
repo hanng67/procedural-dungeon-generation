@@ -2,37 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using MyBox;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace PDG
 {
-    public class RandomWalkDungeonGenerator : MonoBehaviour
+    public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
     {
-        [SerializeField] private Vector2Int startPosition = Vector2Int.zero;
-        [SerializeField] private int interations = 10, walkLegth = 10;
-        [SerializeField] private bool startRandomlyEachInteration = false;
-        [SerializeField] private TilemapVisualizer tilemapVisualizer;
+        [SerializeField] private RandomWalkSO randomWalkSO;
 
 
-        [ButtonMethod]
-        private void ProceduralGeneration()
+        protected override void RunProceduralGeneration()
         {
             HashSet<Vector2Int> floors = new HashSet<Vector2Int>();
-            RunRandomWalk(floors);
+            RunRandomWalk(floors, randomWalkSO);
 
             tilemapVisualizer.Clear();
             tilemapVisualizer.PaintFloorTiles(floors);
         }
 
-        private void RunRandomWalk(HashSet<Vector2Int> floors)
+        private void RunRandomWalk(HashSet<Vector2Int> floors, RandomWalkSO randomWalkSO)
         {
             Vector2Int currentPosition = startPosition;
-            for (int i = 0; i < interations; i++)
+            for (int i = 0; i < randomWalkSO.interations; i++)
             {
-                floors.UnionWith(ProceduralGenerationAlgorithms.RandomWalk(currentPosition, walkLegth));
-                if (!startRandomlyEachInteration) continue;
+                floors.UnionWith(ProceduralGenerationAlgorithms.RandomWalk(currentPosition, randomWalkSO.walkLength));
+                if (!randomWalkSO.startRandomlyEachInteration) continue;
                 currentPosition = floors.ElementAt(Random.Range(0, floors.Count));
             }
         }
