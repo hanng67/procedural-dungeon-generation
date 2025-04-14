@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RandomWalkSO_Island
   m_EditorClassIdentifier: 
   interations: 100
-  walkLegth: 20
+  walkLength: 20
   startRandomlyEachInteration: 0

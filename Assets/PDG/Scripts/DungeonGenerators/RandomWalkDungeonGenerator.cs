@@ -9,20 +9,21 @@ namespace PDG
 {
     public class RandomWalkDungeonGenerator : AbstractDungeonGenerator
     {
-        [SerializeField] private RandomWalkSO randomWalkSO;
+        [SerializeField] protected RandomWalkSO randomWalkSO;
 
 
         protected override void RunProceduralGeneration()
         {
             HashSet<Vector2Int> floors = new HashSet<Vector2Int>();
-            RunRandomWalk(floors, randomWalkSO);
+            floors = RunRandomWalk(startPosition, randomWalkSO);
 
             tilemapVisualizer.Clear();
             tilemapVisualizer.PaintFloorTiles(floors);
         }
 
-        private void RunRandomWalk(HashSet<Vector2Int> floors, RandomWalkSO randomWalkSO)
+        protected HashSet<Vector2Int> RunRandomWalk(Vector2Int startPosition, RandomWalkSO randomWalkSO)
         {
+            HashSet<Vector2Int> floors = new HashSet<Vector2Int>();
             Vector2Int currentPosition = startPosition;
             for (int i = 0; i < randomWalkSO.interations; i++)
             {
@@ -30,6 +31,7 @@ namespace PDG
                 if (!randomWalkSO.startRandomlyEachInteration) continue;
                 currentPosition = floors.ElementAt(Random.Range(0, floors.Count));
             }
+            return floors;
         }
     }
 }
